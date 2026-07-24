@@ -1,141 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+// Yahan humne sabhi hotels ka data import kiya hai
+import { hotelsData } from '../data/hotelsData'; 
 
 const HotelsPage = () => {
-  // 12 Hotels ka data (Page 1 ke liye 6, Page 2 ke liye 6)
-  const allHotels = [
-    // --- PAGE 1 HOTELS ---
-    {
-      id: 1,
-      name: "Oceanview Resort & Spa",
-      location: "Goa, India",
-      rating: 4.5,
-      reviews: 256,
-      price: "6,500",
-      image: "https://images.unsplash.com/photo-1582719478250-c894e4dc240e?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Pool", "Breakfast"]
-    },
-    {
-      id: 2,
-      name: "Grand Palace Hotel",
-      location: "Mumbai, India",
-      rating: 4.3,
-      reviews: 189,
-      price: "5,200",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Parking", "Breakfast"]
-    },
-    {
-      id: 3,
-      name: "Beach Paradise Resort",
-      location: "Bali, Indonesia",
-      rating: 4.6,
-      reviews: 317,
-      price: "8,750",
-      image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Pool", "Breakfast"]
-    },
-    {
-      id: 4,
-      name: "Mountain View Lodge",
-      location: "Manali, India",
-      rating: 4.2,
-      reviews: 145,
-      price: "4,200",
-      image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Parking", "Breakfast"]
-    },
-    {
-      id: 5,
-      name: "City Center Hotel",
-      location: "New Delhi, India",
-      rating: 4.4,
-      reviews: 236,
-      price: "4,800",
-      image: "https://images.unsplash.com/photo-1551882547-ff40c0d13c85?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Parking", "Breakfast"]
-    },
-    {
-      id: 6,
-      name: "Luxury Lagoon Resort",
-      location: "Maldives",
-      rating: 4.7,
-      reviews: 412,
-      price: "12,500",
-      image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Pool", "Breakfast"]
-    },
-    // --- PAGE 2 HOTELS ---
-    {
-      id: 7,
-      name: "Desert Mirage Camp",
-      location: "Jaisalmer, India",
-      rating: 4.8,
-      reviews: 198,
-      price: "7,500",
-      image: "https://images.unsplash.com/photo-1534008897995-27a23e859048?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Breakfast", "Parking"]
-    },
-    {
-      id: 8,
-      name: "Pine Forest Retreat",
-      location: "Shimla, India",
-      rating: 4.1,
-      reviews: 112,
-      price: "3,800",
-      image: "https://images.unsplash.com/photo-1542314831-c6a4d14d8c85?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Parking"]
-    },
-    {
-      id: 9,
-      name: "Urban Oasis Suites",
-      location: "Bangalore, India",
-      rating: 4.5,
-      reviews: 340,
-      price: "6,000",
-      image: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Pool", "Breakfast"]
-    },
-    {
-      id: 10,
-      name: "Lakeside Haven",
-      location: "Udaipur, India",
-      rating: 4.9,
-      reviews: 521,
-      price: "15,000",
-      image: "https://images.unsplash.com/photo-1585544314038-a0d376981024?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Pool", "Breakfast", "Parking"]
-    },
-    {
-      id: 11,
-      name: "Sunset Villa",
-      location: "Kerala, India",
-      rating: 4.6,
-      reviews: 289,
-      price: "9,200",
-      image: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Pool"]
-    },
-    {
-      id: 12,
-      name: "Royal Heritage Fort",
-      location: "Jaipur, India",
-      rating: 4.7,
-      reviews: 415,
-      price: "11,500",
-      image: "https://images.unsplash.com/photo-1582610116397-edb318620f90?w=600&q=80",
-      amenities: ["Free Wi-Fi", "Breakfast", "Parking"]
-    }
-  ];
-
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Logic to show only the current page's hotels
+  // Logic to show only the current page's hotels (Ab hotelsData use kar rahe hain)
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentHotels = allHotels.slice(indexOfFirstItem, indexOfLastItem);
+  const currentHotels = hotelsData.slice(indexOfFirstItem, indexOfLastItem);
 
   // SVG Icon Helpers
   const AmenityIcon = ({ type }) => {
@@ -161,17 +37,13 @@ const HotelsPage = () => {
         
         {/* Hero Section */}
         <section className="relative w-full min-h-[350px] lg:h-[450px] flex flex-col justify-center bg-gray-900 overflow-hidden">
-          
           {/* FULL WIDTH Background Image */}
-          <div 
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" 
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1600&q=80')" }}
-          >
-            {/* Gradient Overlay (Darker on the left, fading to right) */}
+          <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1600&q=80')" }}>
+            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
           </div>
 
-          {/* Text Content (Changed text to White for visibility) */}
+          {/* Text Content */}
           <div className="relative z-10 max-w-6xl mx-auto w-full px-6 pt-10 pb-20 lg:py-0">
             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 shadow-sm drop-shadow-md">
               Find Your Perfect Stay
@@ -182,10 +54,9 @@ const HotelsPage = () => {
           </div>
         </section>
 
-        {/* Floating Search Bar (Moved outside so it dictates its own height) */}
+        {/* Floating Search Bar */}
         <div className="relative z-20 max-w-6xl mx-auto w-full px-6 -mt-16 lg:-mt-12">
           <div className="bg-white p-3 rounded-2xl flex flex-col lg:flex-row items-center shadow-xl shadow-gray-200/50 w-full border border-gray-100">
-            
             {/* Destination */}
             <div className="flex-1 w-full p-2 border-b lg:border-b-0 lg:border-r border-gray-100 px-4">
               <label className="block text-xs font-bold text-gray-800 mb-1">Destination</label>
@@ -230,7 +101,6 @@ const HotelsPage = () => {
                 Search Hotels
               </button>
             </div>
-
           </div>
         </div>
       </div>
@@ -260,7 +130,7 @@ const HotelsPage = () => {
               
               {/* Image & Badges */}
               <div className="relative h-56 w-full overflow-hidden">
-                <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src={hotel.mainImage} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 {/* Rating Badge */}
                 <div className="absolute top-4 left-4 bg-green-600 text-white px-2 py-1 rounded text-xs font-bold flex items-center">
                   ★ {hotel.rating}
@@ -303,6 +173,8 @@ const HotelsPage = () => {
                   <p className="font-bold text-lg text-gray-900">
                     ₹{hotel.price} <span className="font-normal text-xs text-gray-500">/ night</span>
                   </p>
+                  
+                  {/* Yeh yahan page change karta hai */}
                   <Link 
                     to={`/hotel/${hotel.id}`} 
                     className="bg-[#1A63F4] hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm"

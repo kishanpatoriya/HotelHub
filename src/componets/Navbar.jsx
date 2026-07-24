@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom"; 
+import React, { Profiler, useState } from "react";
+import { Link, NavLink } from "react-router-dom"; 
 
 const Navbar = () => {
   // Mobile menu ko open/close karne ke liye state
@@ -29,7 +29,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative w-full bg-white border-b border-gray-200">
+    <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
       {/* Main Navbar Container */}
       <div className="flex items-center justify-between px-4 lg:px-8 py-3">
         
@@ -69,11 +69,11 @@ const Navbar = () => {
           </button>
 
           {/* Profile Icon */}
-          <button className="text-gray-600 hover:text-gray-900 p-1.5 transition-colors hidden sm:block">
+          <Link to="/profile" className="text-gray-600 hover:text-gray-900 p-1.5 transition-colors hidden sm:block">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-          </button>
+          </Link>
 
           {/* Book Now Button */}
           <button className="bg-[#0052CC] hover:bg-blue-700 text-white text-xs lg:text-sm font-semibold px-4 py-2 lg:py-2.5 rounded-lg transition-colors shadow-sm whitespace-nowrap">
@@ -122,10 +122,10 @@ const Navbar = () => {
                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                Favorites
              </button>
-             <button className="flex items-center text-gray-600 text-sm font-medium">
+             <Link to="/profile" className="flex items-center text-gray-600 text-sm font-medium">
                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                Profile
-             </button>
+             </Link>
           </div>
 
         </div>
