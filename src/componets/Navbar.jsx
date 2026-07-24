@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom"; 
 
 const Navbar = () => {
   // Mobile menu ko open/close karne ke liye state
@@ -40,12 +41,13 @@ const Navbar = () => {
         </div>
 
         {/* 2. Middle: Desktop Navigation Links (Hidden on Mobile) */}
+        {/* Yahan href ki jagah to="/path" lagaya gaya hai */}
         <div className="hidden lg:flex items-center space-x-8 text-sm font-medium">
-          <a href="#home" onClick={() => handleLinkClick('home')} className={getDesktopLinkStyle('home')}>Home</a>
-          <a href="#hotels" onClick={() => handleLinkClick('hotels')} className={getDesktopLinkStyle('hotels')}>Hotels</a>
-          <a href="#experiences" onClick={() => handleLinkClick('experiences')} className={getDesktopLinkStyle('experiences')}>Experiences</a>
-          <a href="#offers" onClick={() => handleLinkClick('offers')} className={getDesktopLinkStyle('offers')}>Offers</a>
-          <a href="#concierge" onClick={() => handleLinkClick('concierge')} className={getDesktopLinkStyle('concierge')}>Concierge</a>
+          <NavLink to="/" onClick={() => handleLinkClick('home')} className={getDesktopLinkStyle('home')}>Home</NavLink>
+          <NavLink to="/hotels" onClick={() => handleLinkClick('hotels')} className={getDesktopLinkStyle('hotels')}>Hotels</NavLink>
+          <NavLink to="/experiences" onClick={() => handleLinkClick('experiences')} className={getDesktopLinkStyle('experiences')}>Experiences</NavLink>
+          <NavLink to="/offers" onClick={() => handleLinkClick('offers')} className={getDesktopLinkStyle('offers')}>Offers</NavLink>
+          <NavLink to="/concierge" onClick={() => handleLinkClick('concierge')} className={getDesktopLinkStyle('concierge')}>Concierge</NavLink>
         </div>
 
         {/* 3. Right: Icons & Buttons */}
@@ -105,11 +107,12 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Links */}
-          <a href="#home" onClick={() => handleLinkClick('home')} className={getMobileLinkStyle('home')}>Home</a>
-          <a href="#hotels" onClick={() => handleLinkClick('hotels')} className={getMobileLinkStyle('hotels')}>Hotels</a>
-          <a href="#experiences" onClick={() => handleLinkClick('experiences')} className={getMobileLinkStyle('experiences')}>Experiences</a>
-          <a href="#offers" onClick={() => handleLinkClick('offers')} className={getMobileLinkStyle('offers')}>Offers</a>
-          <a href="#concierge" onClick={() => handleLinkClick('concierge')} className={getMobileLinkStyle('concierge')}>Concierge</a>
+          {/* Yahan bhi to="/path" update kiya gaya hai */}
+          <NavLink to="/" onClick={() => handleLinkClick('home')} className={getMobileLinkStyle('home')}>Home</NavLink>
+          <NavLink to="/hotels" onClick={() => handleLinkClick('hotels')} className={getMobileLinkStyle('hotels')}>Hotels</NavLink>
+          <NavLink to="/experiences" onClick={() => handleLinkClick('experiences')} className={getMobileLinkStyle('experiences')}>Experiences</NavLink>
+          <NavLink to="/offers" onClick={() => handleLinkClick('offers')} className={getMobileLinkStyle('offers')}>Offers</NavLink>
+          <NavLink to="/concierge" onClick={() => handleLinkClick('concierge')} className={getMobileLinkStyle('concierge')}>Concierge</NavLink>
           
           <hr className="border-gray-100" />
           
