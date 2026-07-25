@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { hotelsData } from '../data/hotelsData'; // Ensure karein ki path sahi ho
+import { hotelsData } from '../Data/hotelsData'; // Ensure karein ki path sahi ho
 
 const HotelDetails = () => {
   // useParams se hume URL se hotel ki ID mil jayegi (e.g., /hotel/1)
