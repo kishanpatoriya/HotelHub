@@ -8,6 +8,7 @@ import ScrollToTop from './componets/ScrollToTop';
 import HotelDetails from './pages/HotelDetails';
 import UserProfile from './pages/UserProfile';
 import Experiences from './pages/Experiences';
+import ContactUs from './pages/ContactUs';
 import AboutUs from "./pages/AboutUs";
 import Offers  from "./pages/Offers";
 import "./App.css";
@@ -37,6 +38,7 @@ function App() {
             <Route path="/experiences" element={<Experiences />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/offers" element={<Offers />} />
+            <Route path="/contactus" element={<ContactUs/>} />
           </Route>
         </Routes>
       

@@ -47,7 +47,7 @@ const Navbar = () => {
           <NavLink to="/hotels" onClick={() => handleLinkClick('hotels')} className={getDesktopLinkStyle('hotels')}>Hotels</NavLink>
           <NavLink to="/experiences" onClick={() => handleLinkClick('experiences')} className={getDesktopLinkStyle('experiences')}>Experiences</NavLink>
           <NavLink to="/offers" onClick={() => handleLinkClick('offers')} className={getDesktopLinkStyle('offers')}>Offers</NavLink>
-          <NavLink to="/concierge" onClick={() => handleLinkClick('concierge')} className={getDesktopLinkStyle('concierge')}>Concierge</NavLink>
+          <NavLink to="/concierge" onClick={() => handleLinkClick('concierge')} className={getDesktopLinkStyle('concierge')}>ContactUs</NavLink>
         </div>
 
         {/* 3. Right: Icons & Buttons */}
@@ -112,7 +112,7 @@ const Navbar = () => {
           <NavLink to="/hotels" onClick={() => handleLinkClick('hotels')} className={getMobileLinkStyle('hotels')}>Hotels</NavLink>
           <NavLink to="/experiences" onClick={() => handleLinkClick('experiences')} className={getMobileLinkStyle('experiences')}>Experiences</NavLink>
           <NavLink to="/offers" onClick={() => handleLinkClick('offers')} className={getMobileLinkStyle('offers')}>Offers</NavLink>
-          <NavLink to="/concierge" onClick={() => handleLinkClick('concierge')} className={getMobileLinkStyle('concierge')}>Concierge</NavLink>
+          <NavLink to="/concierge" onClick={() => handleLinkClick('concierge')} className={getMobileLinkStyle('concierge')}>ContastUS</NavLink>
           
           <hr className="border-gray-100" />
           

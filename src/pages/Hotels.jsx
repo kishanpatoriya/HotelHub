@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 // Yahan humne sabhi hotels ka data import kiya hai
 import { hotelsData } from '../data/hotelsData'; 
 
-const HotelsPage = () => {
+const Hotels = () => {
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -229,4 +229,4 @@ const HotelsPage = () => {
   );
 };
 
-export default HotelsPage;
+export default Hotels;
