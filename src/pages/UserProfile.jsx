@@ -5,7 +5,6 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
-  // 1. Initial State
   const [profileImage, setProfileImage] = useState(null);
   const [profileData, setProfileData] = useState({
     fullName: '', username: '', email: '', phone: '', dob: '', gender: '',
@@ -13,11 +12,9 @@ const UserProfile = () => {
     website: '', facebook: '', instagram: '', linkedin: '', bio: ''
   });
 
-  // Password Modal State
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
 
-  // 2. Load Data from LocalStorage on Component Mount
   useEffect(() => {
     const savedData = localStorage.getItem('hotelHubUserProfile');
     const savedImage = localStorage.getItem('hotelHubUserImage');
@@ -30,16 +27,13 @@ const UserProfile = () => {
     }
   }, []);
 
-  // Handle Input Changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfileData(prev => ({ ...prev, [name]: value }));
   };
 
-  // 3. Email Validation
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profileData.email);
 
-  // 4. Dynamic Profile Completion
   const calculateCompletion = () => {
     let filledFields = 0;
     const totalFields = Object.keys(profileData).length + 1; // +1 for image
@@ -53,11 +47,9 @@ const UserProfile = () => {
   };
   const completionPercentage = calculateCompletion();
 
-  // 5. Image Upload & Save as Base64 (For LocalStorage persistence)
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Use FileReader to convert image to Base64 string
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfileImage(reader.result);
@@ -71,7 +63,6 @@ const UserProfile = () => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  // 6. Save Changes to LocalStorage
   const handleSaveChanges = () => {
     localStorage.setItem('hotelHubUserProfile', JSON.stringify(profileData));
     if (profileImage) {
@@ -82,7 +73,6 @@ const UserProfile = () => {
     alert("✅ Profile changes saved successfully!");
   };
 
-  // 7. Password Change Handlers
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPasswords(prev => ({ ...prev, [name]: value }));
@@ -102,14 +92,12 @@ const UserProfile = () => {
     setPasswords({ current: '', new: '', confirm: '' });
   };
 
-  // 8. Logout Logic
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       navigate('/');
     }
   };
 
-  // 9. Smooth Scroll Logic
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -127,12 +115,10 @@ const UserProfile = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50 font-sans pb-20">
       
-      {/* Container (Adjusted layout to fix left side spacing) */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 pt-10">
         
         <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-10">
           
-          {/* ================= LEFT SIDEBAR (STICKY) ================= */}
           <aside className="w-full lg:w-72 flex flex-col gap-6 sticky top-24 shrink-0">
             
             {/* Navigation Menu */}
@@ -160,7 +146,6 @@ const UserProfile = () => {
               </button>
             </div>
 
-            {/* Profile Completion Widget */}
             <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-sm font-bold text-gray-800">Profile Completion</h3>
@@ -179,10 +164,8 @@ const UserProfile = () => {
 
           </aside>
 
-          {/* ================= MAIN CONTENT ================= */}
           <main className="flex-1 w-full flex flex-col gap-6">
             
-            {/* Header Profile Card */}
             <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center border border-gray-100 gap-4">
               <div className="flex items-center gap-4">
                 <div className="relative">
@@ -217,7 +200,6 @@ const UserProfile = () => {
               </button>
             </div>
 
-            {/* Profile Photo Section */}
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <h2 className="text-lg font-bold text-gray-900 mb-4">Profile Photo</h2>
               <div className="flex flex-col md:flex-row gap-6 items-center">
@@ -241,7 +223,6 @@ const UserProfile = () => {
               </div>
             </div>
 
-            {/* Personal Information */}
             <div id="personal-info" className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 scroll-mt-24">
               <h2 className="text-lg font-bold text-gray-900 mb-6">Personal Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -289,7 +270,6 @@ const UserProfile = () => {
               </div>
             </div>
 
-            {/* Address Details */}
             <div id="address-details" className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 scroll-mt-24">
               <h2 className="text-lg font-bold text-gray-900 mb-6">Address Details</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
@@ -321,7 +301,6 @@ const UserProfile = () => {
               </div>
             </div>
 
-            {/* Bottom Grid: Social & About Me */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Social Profiles */}
               <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 flex flex-col h-full">
@@ -342,7 +321,6 @@ const UserProfile = () => {
                 </div>
               </div>
 
-              {/* About Me */}
               <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 flex flex-col h-full">
                 <h2 className="text-lg font-bold text-gray-900 mb-5">About Me</h2>
                 <textarea 
@@ -353,7 +331,6 @@ const UserProfile = () => {
               </div>
             </div>
 
-            {/* Security Settings (Change Password) */}
             <div id="security-settings" className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 scroll-mt-24">
                <h2 className="text-lg font-bold text-gray-900 mb-2">Security Settings</h2>
                <p className="text-sm text-gray-500 mb-4">Manage your password and security preferences.</p>
@@ -362,7 +339,6 @@ const UserProfile = () => {
                </button>
             </div>
 
-            {/* Account Insights */}
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mb-8">
               <h2 className="text-lg font-bold text-gray-900 mb-5">Account Insights</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
@@ -392,7 +368,6 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* ================= PASSWORD CHANGE MODAL ================= */}
       {isPasswordModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl relative animate-fadeIn">

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const ContactUs = () => {
-  // Form State
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -10,7 +9,6 @@ const ContactUs = () => {
     message: ''
   });
 
-  // FAQ State
   const [activeFaq, setActiveFaq] = useState(null);
 
   const handleInputChange = (e) => {
@@ -46,7 +44,6 @@ const ContactUs = () => {
   return (
     <div className="w-full min-h-screen bg-white font-sans text-gray-900 pb-20">
       
-      {/* 1. Header Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="max-w-3xl">
           <p className="text-[#0052CC] font-bold text-xs tracking-widest uppercase mb-3">Connect With Us</p>
@@ -59,7 +56,6 @@ const ContactUs = () => {
         </div>
       </section>
 
-      {/* 2. Main Contact Layout */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
         <div className="flex flex-col lg:flex-row gap-10">
           
@@ -110,7 +106,6 @@ const ContactUs = () => {
             </form>
           </div>
 
-          {/* Right Column: Contact Info Cards */}
           <div className="w-full lg:w-2/5 flex flex-col gap-6">
             
             {/* Direct Contact */}
@@ -138,7 +133,6 @@ const ContactUs = () => {
               </div>
             </div>
 
-            {/* Office Hours */}
             <div className="bg-[#F4F7FB] rounded-3xl p-8 border border-gray-100">
               <h3 className="text-sm font-bold text-gray-800 mb-5">Office Hours</h3>
               <div className="flex justify-between items-center mb-3">
@@ -154,7 +148,6 @@ const ContactUs = () => {
               </p>
             </div>
 
-            {/* Connect Globally */}
             <div className="px-2 mt-2">
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Connect Globally</h3>
               <div className="flex gap-4">
@@ -174,7 +167,6 @@ const ContactUs = () => {
         </div>
       </section>
 
-      {/* 3. Frequently Asked Questions */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
@@ -192,7 +184,6 @@ const ContactUs = () => {
                 <svg className={`w-5 h-5 text-gray-400 transform transition-transform duration-300 shrink-0 ${activeFaq === idx ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
               </button>
               
-              {/* Animated Accordion Content */}
               <div 
                 className={`transition-all duration-300 ease-in-out ${activeFaq === idx ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}
               >
@@ -205,7 +196,6 @@ const ContactUs = () => {
         </div>
       </section>
 
-      {/* 4. Map & Contact Overlay Section */}
       <section className="w-full h-[500px] relative bg-gray-200">
         {/* Placeholder Map Image (Using a generic map image from Unsplash to simulate the map) */}
         <img 
@@ -214,7 +204,6 @@ const ContactUs = () => {
           className="w-full h-full object-cover grayscale opacity-80"
         />
         
-        {/* Blue Map Marker in the center/right */}
         <div className="absolute top-1/2 left-1/2 md:left-2/3 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
           <div className="w-10 h-10 bg-[#0052CC] rounded-full flex items-center justify-center text-white shadow-lg border-4 border-white/50 animate-bounce">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -224,7 +213,6 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* Floating Contact Card */}
         <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-12 lg:left-32 w-[90%] md:w-80 bg-white rounded-2xl shadow-xl p-6 border border-gray-100 z-10">
           <h3 className="text-xl font-bold text-gray-900 mb-1">Contact Us</h3>
           <p className="text-xs text-gray-500 mb-6">Luxe Stay - New York Headquarters</p>
