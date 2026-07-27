@@ -36,7 +36,19 @@ const Navbar = () => {
         {/* 1. Left: Logo */}
         <div className="flex items-center cursor-pointer">
           <svg className="w-8 h-8 lg:w-9 lg:h-9 text-[#00838F]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L2 9.5V21H22V9.5L12 2ZM12 4.5L19.5 10.1V19H16.5V13.5C16.5 11 14.5 9 12 9C9.5 9 7.5 11 7.5 13.5V19H4.5V10.1L12 4.5ZM12 11C13.1 11 14 11.9 14 13C14 13.7 13.6 14.3 13 14.7V17H11V14.7C10.4 14.3 10 13.7 10 13C10 11.9 10.9 11 12 11Z" />
+            {/* <path d="M12 2L2 9.5V21H22V9.5L12 2ZM12 4.5L19.5 10.1V19H16.5V13.5C16.5 11 14.5 9 12 9C9.5 9 7.5 11 7.5 13.5V19H4.5V10.1L12 4.5ZM12 11C13.1 11 14 11.9 14 13C14 13.7 13.6 14.3 13 14.7V17H11V14.7C10.4 14.3 10 13.7 10 13C10 11.9 10.9 11 12 11Z" /> */}
+
+            <Link  to="./"
+              onClick={() => handleLinkClick("home")}>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style={{ cursor: "pointer" }}
+              >
+                <path d="M12 2L2 9.5V21H22V9.5L12 2ZM12 4.5L19.5 10.1V19H16.5V13.5C16.5 11 14.5 9 12 9C9.5 9 7.5 11 7.5 13.5V19H4.5V10.1L12 4.5ZM12 11C13.1 11 14 11.9 14 13C14 13.7 13.6 14.3 13 14.7V17H11V14.7C10.4 14.3 10 13.7 10 13C10 11.9 10.9 11 12 11Z" />
+              </svg>
+            </Link>
           </svg>
         </div>
 
