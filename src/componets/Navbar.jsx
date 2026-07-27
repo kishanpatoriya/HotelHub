@@ -32,6 +32,7 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
     <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
       {/* Main Navbar Container */}
       <div className="flex items-center justify-between px-4 lg:px-8 py-3">
+        <div className="flex items-center justify-between px-4 lg:px-8 py-3">
         {/* 1. Left: Logo */}
           <div className="flex items-center cursor-pointer">
             <Link to="/" onClick={() => handleLinkClick("home")}>
@@ -190,6 +191,7 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
               )}
             </svg>
           </button>
+        </div>
         </div>
 
       {/* 4. Mobile Menu Dropdown */}
