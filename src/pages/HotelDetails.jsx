@@ -1,294 +1,292 @@
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { hotelsData } from '../data/hotelsData'; // Ensure karein ki path sahi ho
+import React, { useState } from 'react';
 
-const HotelDetails = () => {
-  // useParams se hume URL se hotel ki ID mil jayegi (e.g., /hotel/1)
-  const { id } = useParams();
-
-  // URL ki ID ke hisaab se hotelsData mein se sahi hotel dhoondein
-  const hotel = hotelsData.find((item) => item.id === Number(id));
-
-  // Agar user aisi ID daale jo exist nahi karti, toh ye page dikhega
-  if (!hotel) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Hotel Not Found!</h2>
-        <p className="text-gray-500 mb-6">The hotel you are looking for does not exist.</p>
-        <Link to="/hotels" className="bg-[#1A63F4] text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-          Back to Hotels
-        </Link>
-      </div>
-    );
-  }
-
-  // Available Rooms (Abhi ke liye static rakh rahe hain)
-  const availableRooms = [
+const Hotels = () => {
+  // 18 Villas Data (9 for Page 1, 9 for Page 2)
+  const allVillas = [
+    // --- PAGE 1 ---
     {
-      id: 1,
-      name: "Deluxe Room",
-      specs: "1 King Bed • 2 Guests • 32 m²",
-      view: "City View",
-      price: hotel.price,
-      image: hotel.images[0]
+      id: 1, name: "Ocean Paradise Villa", location: "Bali, Indonesia",
+      beds: 4, baths: 4, guests: 8, price: "28,000", rating: 4.9, reviews: 120,
+      image: "https://images.unsplash.com/photo-1582719478250-c894e4dc240e?w=800&q=80", badge: "Bestseller"
     },
     {
-      id: 2,
-      name: "Premium Room",
-      specs: "1 King Bed • 2 Guests • 40 m²",
-      view: "Premium View with Balcony",
-      price: (parseInt(hotel.price.replace(/,/g, '')) + 2000).toLocaleString(),
-      image: hotel.images[1]
+      id: 2, name: "Tropical Beach Villa", location: "Maldives",
+      beds: 3, baths: 3, guests: 6, price: "35,000", rating: 4.8, reviews: 98,
+      image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80"
     },
     {
-      id: 3,
-      name: "Suite Room",
-      specs: "1 King Bed • 2 Guests • 60 m²",
-      view: "Living Area • Balcony",
-      price: (parseInt(hotel.price.replace(/,/g, '')) + 6000).toLocaleString(),
-      image: hotel.images[2]
+      id: 3, name: "Sunset Cliff Villa", location: "Goa, India",
+      beds: 4, baths: 5, guests: 8, price: "22,000", rating: 4.7, reviews: 86,
+      image: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800&q=80"
+    },
+    {
+      id: 4, name: "Palm Grove Villa", location: "Thailand",
+      beds: 4, baths: 4, guests: 8, price: "18,000", rating: 4.6, reviews: 74,
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
+    },
+    {
+      id: 5, name: "Azure Bay Villa", location: "Bali, Indonesia",
+      beds: 5, baths: 6, guests: 10, price: "40,000", rating: 4.9, reviews: 110,
+      image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80", badge: "New"
+    },
+    {
+      id: 6, name: "Royal Lagoon Villa", location: "Maldives",
+      beds: 4, baths: 4, guests: 8, price: "32,000", rating: 4.8, reviews: 92,
+      image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&q=80"
+    },
+    {
+      id: 7, name: "Cliffside Luxury Villa", location: "UAE, Dubai",
+      beds: 6, baths: 6, guests: 12, price: "55,000", rating: 4.9, reviews: 130,
+      image: "https://images.unsplash.com/photo-1511840636560-acee95b3a83f?w=800&q=80"
+    },
+    {
+      id: 8, name: "Serenity Beach Villa", location: "Goa, India",
+      beds: 3, baths: 3, guests: 6, price: "16,000", rating: 4.5, reviews: 60,
+      image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80"
+    },
+    {
+      id: 9, name: "Infinity Ocean Villa", location: "Bali, Indonesia",
+      beds: 5, baths: 5, guests: 10, price: "45,000", rating: 4.9, reviews: 115,
+      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80"
+    },
+    // --- PAGE 2 ---
+    {
+      id: 10, name: "Majestic Mountain Villa", location: "Manali, India",
+      beds: 4, baths: 4, guests: 8, price: "24,000", rating: 4.8, reviews: 88,
+      image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=800&q=80", badge: "Bestseller"
+    },
+    {
+      id: 11, name: "Emerald Forest Retreat", location: "Kerala, India",
+      beds: 3, baths: 3, guests: 6, price: "20,000", rating: 4.7, reviews: 65,
+      image: "https://images.unsplash.com/photo-1542314831-c6a4d14d8c85?w=800&q=80"
+    },
+    {
+      id: 12, name: "Golden Sands Villa", location: "Phuket, Thailand",
+      beds: 5, baths: 5, guests: 10, price: "38,000", rating: 4.9, reviews: 142,
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
+    },
+    {
+      id: 13, name: "Silver Cove Mansion", location: "Santorini, Greece",
+      beds: 6, baths: 7, guests: 14, price: "75,000", rating: 5.0, reviews: 210,
+      image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80", badge: "Luxury"
+    },
+    {
+      id: 14, name: "Desert Oasis Villa", location: "Dubai, UAE",
+      beds: 4, baths: 4, guests: 8, price: "42,000", rating: 4.6, reviews: 54,
+      image: "https://images.unsplash.com/photo-1511840636560-acee95b3a83f?w=800&q=80"
+    },
+    {
+      id: 15, name: "Crystal Water Villa", location: "Bora Bora",
+      beds: 2, baths: 2, guests: 4, price: "60,000", rating: 4.9, reviews: 180,
+      image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80"
+    },
+    {
+      id: 16, name: "Heritage Courtyard", location: "Jaipur, India",
+      beds: 5, baths: 5, guests: 10, price: "26,000", rating: 4.8, reviews: 95,
+      image: "https://images.unsplash.com/photo-1582719478250-c894e4dc240e?w=800&q=80"
+    },
+    {
+      id: 17, name: "Orchid Island Villa", location: "Seychelles",
+      beds: 3, baths: 3, guests: 6, price: "48,000", rating: 4.7, reviews: 77,
+      image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&q=80"
+    },
+    {
+      id: 18, name: "Cloud Nine Estate", location: "Swiss Alps",
+      beds: 6, baths: 6, guests: 12, price: "85,000", rating: 4.9, reviews: 155,
+      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80", badge: "New"
     }
   ];
 
-  // Similar Properties (hotelsData se koi bhi 4 dusre hotels nikal rahe hain)
-  const similarHotels = hotelsData.filter(h => h.id !== hotel.id).slice(0, 4);
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
+  // Pagination Logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentVillas = allVillas.slice(indexOfFirstItem, indexOfLastItem);
+  
+  const totalPages = Math.ceil(allVillas.length / itemsPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Smooth scroll to top of villas section when page changes
+    document.getElementById('villas-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
-    <div className="w-full min-h-screen bg-white font-sans text-gray-900 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        
-        {/* 1. Top Bar */}
-        <div className="flex items-center justify-between mb-6">
-          <Link to="/hotels" className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#1A63F4] transition-colors">
-            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Back to Hotels
-          </Link>
-          <div className="flex items-center space-x-4">
-            <button className="flex items-center text-sm font-semibold text-gray-700 hover:text-gray-900">
-              <svg className="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-              Save
-            </button>
-            <button className="flex items-center text-sm font-semibold text-gray-700 hover:text-gray-900">
-              <svg className="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-              Share
-            </button>
-          </div>
-        </div>
-
-        {/* 2. Image Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-8 h-[300px] md:h-[450px]">
-          <div className="md:col-span-3 rounded-2xl overflow-hidden h-full">
-            <img src={hotel.mainImage} alt={hotel.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-          </div>
-          <div className="hidden md:flex flex-col gap-3 h-full">
-            <div className="flex-1 rounded-2xl overflow-hidden">
-              <img src={hotel.images[0]} alt="Room view" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-            </div>
-            <div className="flex-1 rounded-2xl overflow-hidden">
-              <img src={hotel.images[1]} alt="Dining area" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-            </div>
-            <div className="flex-1 rounded-2xl overflow-hidden relative cursor-pointer group">
-              <img src={hotel.images[2]} alt="Spa area" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white group-hover:bg-black/40 transition-colors">
-                <span className="text-2xl font-bold">+20</span>
-                <span className="text-sm font-medium">More Photos</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 3. Header & Price Info */}
-        <div className="flex flex-col md:flex-row md:items-start justify-between mb-8 gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">{hotel.name}</h1>
-              <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-sm font-bold flex items-center">
-                {hotel.rating} Excellent
-              </span>
-              <span className="text-sm text-gray-500">({hotel.reviews} reviews)</span>
-            </div>
-            <div className="flex items-center text-gray-500 text-sm">
-              <svg className="w-4 h-4 mr-1 text-[#1A63F4]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-              {hotel.location}
-              <div className="flex text-[#F4B400] ml-3">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                ))}
-              </div>
-            </div>
-          </div>
+    <div className="w-full min-h-screen bg-gray-50 font-sans text-gray-900 pb-20">
+      
+      {/* 1. Dark Navbar */}
+      <nav className="w-full bg-[#0B0F19] border-b border-gray-800 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 lg:px-8 py-4">
           
-          <div className="md:text-right flex flex-col md:items-end">
-            <p className="font-bold text-3xl text-gray-900">
-              ₹{hotel.price} <span className="font-normal text-sm text-gray-500">/ night</span>
-            </p>
-            <button className="bg-[#1A63F4] hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-sm font-semibold transition-colors shadow-sm w-full md:w-auto mt-3 mb-1">
+          {/* Logo */}
+          <div className="flex items-center cursor-pointer">
+            <svg className="w-8 h-8 text-[#F59E0B] mr-2" viewBox="0 0 24 24" fill="currentColor">
+               <path d="M4 4h2v16H4V4zm6 0h2v16h-2V4zm6 0h2v16h-2V4zm6 0h2v16h-2V4z" />
+            </svg>
+            <span className="text-white font-bold text-xl tracking-wide">Hotel Hub</span>
+          </div>
+
+          {/* Nav Links */}
+          <div className="hidden lg:flex items-center space-x-8 text-sm font-medium">
+            <a href="#home" className="text-gray-300 hover:text-white transition-colors">Home</a>
+            <a href="#villas" className="text-white border-b-2 border-[#F59E0B] pb-1 font-semibold">Villas</a>
+            <a href="#about" className="text-gray-300 hover:text-white transition-colors">About Us</a>
+            <a href="#offers" className="text-gray-300 hover:text-white transition-colors">Offers</a>
+            <a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+          </div>
+
+          {/* Icons & Button */}
+          <div className="flex items-center space-x-4">
+            <button className="text-gray-300 hover:text-white transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </button>
+            <button className="text-gray-300 hover:text-white transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </button>
+            <button className="bg-[#F59E0B] hover:bg-yellow-500 text-black text-sm font-bold px-5 py-2.5 rounded-lg transition-colors">
               Book Now
             </button>
-            <p className="text-xs text-gray-500 font-medium">Best Price Guarantee</p>
+          </div>
+        </div>
+      </nav>
+
+      {/* 2. Hero Section */}
+      <section 
+        className="relative w-full h-[450px] bg-cover bg-center flex flex-col justify-center"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1600&q=80')" }}
+      >
+        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-left">
+          <h1 className="text-5xl md:text-6xl font-serif text-white mb-4">
+            Luxury Villas
+          </h1>
+          <p className="text-gray-200 text-lg max-w-md leading-relaxed mb-6">
+            Discover and book the world's most beautiful private villas
+          </p>
+          <div className="w-16 h-1 bg-[#F59E0B]"></div>
+        </div>
+      </section>
+
+      {/* 3. Villas Grid Section */}
+      <section id="villas-grid" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-20">
+        
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+          <h2 className="text-3xl font-serif font-bold text-gray-900">Explore Our Luxury Villas</h2>
+          <div className="flex items-center text-sm font-semibold text-gray-700 bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm mt-4 sm:mt-0">
+            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            {allVillas.length} Villas Found
           </div>
         </div>
 
-        {/* 4. Tabs */}
-        <div className="border-b border-gray-200 mb-8 flex overflow-x-auto no-scrollbar">
-          {["Overview", "Rooms", "Amenities", "Reviews", "Location", "Policies"].map((tab, idx) => (
-            <button 
-              key={idx} 
-              className={`pb-4 px-1 mr-8 text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${
-                idx === 0 ? "border-[#1A63F4] text-[#1A63F4]" : "border-transparent text-gray-500 hover:text-gray-900"
-              }`}
-            >
-              {tab}
-            </button>
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {currentVillas.map((villa) => (
+            <div key={villa.id} className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-gray-100 flex flex-col group relative">
+              
+              {/* Image & Badges */}
+              <div className="relative h-60 w-full overflow-hidden">
+                <img src={villa.image} alt={villa.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                
+                {/* Badge (if exists) */}
+                {villa.badge && (
+                  <div className="absolute top-4 left-4 bg-[#F59E0B] text-black px-3 py-1 rounded text-xs font-bold shadow-sm">
+                    {villa.badge}
+                  </div>
+                )}
+
+                {/* Heart Icon */}
+                <button className="absolute top-4 right-4 w-8 h-8 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/50 transition-colors">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Details Content */}
+              <div className="p-5 flex flex-col flex-grow">
+                <h3 className="font-bold text-lg text-gray-900 mb-1">{villa.name}</h3>
+                <div className="flex items-center text-xs text-gray-500 mb-4 font-medium">
+                  <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  {villa.location}
+                </div>
+
+                {/* Features (Beds, Baths, Guests) */}
+                <div className="flex items-center gap-4 text-[13px] text-gray-600 font-medium mb-6">
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    {villa.beds} Beds
+                  </div>
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path></svg>
+                    {villa.baths} Baths
+                  </div>
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    {villa.guests} Guests
+                  </div>
+                </div>
+
+                {/* Footer (Price & Rating) */}
+                <div className="mt-auto pt-4 flex justify-between items-center border-t border-gray-100">
+                  <div className="text-gray-900 font-bold text-lg">
+                    ₹{villa.price} <span className="text-xs text-gray-500 font-normal">/ night</span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <svg className="w-4 h-4 text-[#F59E0B] mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <span className="font-bold text-[#F59E0B] mr-1">{villa.rating}</span>
+                    <span className="text-gray-400 text-xs">({villa.reviews} reviews)</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           ))}
         </div>
 
-        {/* 5. Main Content Layout (Left Column & Right Column) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {/* 4. Pagination */}
+        <div className="flex justify-center items-center space-x-3 mt-12">
           
-          {/* LEFT COLUMN */}
-          <div className="lg:col-span-2 space-y-10">
-            
-            {/* About Property */}
-            <section>
-              <h2 className="text-xl font-bold text-gray-900 mb-3">About This Property</h2>
-              <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                {hotel.description}
-              </p>
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-2 text-sm text-gray-700 font-medium">
-                <div className="flex items-center"><svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>Free Wi-Fi</div>
-                <div className="flex items-center"><svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 11a9 9 0 019 9m-9-9a9 9 0 009-9m-9 9H3m9 9v1m0-19V2"></path></svg>Swimming Pool</div>
-                <div className="flex items-center"><svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Spa & Wellness</div>
-                <div className="flex items-center"><svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>Beachfront</div>
-                <div className="flex items-center"><svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Restaurant</div>
-                <div className="flex items-center"><svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h8a4 4 0 110 8H5V8z"></path></svg>Free Parking</div>
-              </div>
-            </section>
+          {/* Page 1 Button */}
+          <button 
+            onClick={() => paginate(1)}
+            className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border shadow-sm
+              ${currentPage === 1 ? 'bg-[#F59E0B] text-black border-[#F59E0B]' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}
+          >
+            1
+          </button>
 
-            <hr className="border-gray-200" />
+          {/* Page 2 Button */}
+          <button 
+            onClick={() => paginate(2)}
+            className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border shadow-sm
+              ${currentPage === 2 ? 'bg-[#F59E0B] text-black border-[#F59E0B]' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}
+          >
+            2
+          </button>
 
-            {/* Available Rooms */}
-            <section>
-              <h2 className="text-xl font-bold text-gray-900 mb-5">Available Rooms</h2>
-              <div className="space-y-4">
-                {availableRooms.map((room) => (
-                  <div key={room.id} className="border border-gray-200 rounded-xl p-4 flex flex-col md:flex-row gap-5 bg-white">
-                    <img src={room.image} alt={room.name} className="w-full md:w-48 h-32 object-cover rounded-lg" />
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="font-bold text-lg text-gray-900">{room.name}</h3>
-                        <p className="text-gray-500 text-sm mt-1">{room.specs}</p>
-                        <p className="text-gray-500 text-sm">{room.view}</p>
-                        <p className="text-green-600 text-xs font-semibold mt-2">Free Cancellation</p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-center md:items-end border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-5 mt-2 md:mt-0">
-                      <p className="font-bold text-xl text-gray-900">
-                        ₹{room.price} <span className="font-normal text-xs text-gray-500">/ night</span>
-                      </p>
-                      <button className="bg-[#1A63F4] hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm mt-3 w-full md:w-auto">
-                        Select Room
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+          {/* Next Button */}
+          <button 
+            onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+            disabled={currentPage === totalPages}
+            className={`w-10 h-10 rounded-lg flex items-center justify-center border shadow-sm
+              ${currentPage === totalPages ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
 
-          </div>
-
-          {/* RIGHT COLUMN (Sticky Booking Summary) */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-6 space-y-6">
-              
-              {/* Booking Summary Card */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Booking Summary</h3>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-xs text-gray-500 font-medium mb-1">Check-in</p>
-                    <p className="text-sm font-bold text-gray-900">25 Jun 2025</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-xs text-gray-500 font-medium mb-1">Check-out</p>
-                    <p className="text-sm font-bold text-gray-900">28 Jun 2025</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-xs text-gray-500 font-medium mb-1">Guests</p>
-                    <p className="text-sm font-bold text-gray-900">2 Adults</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-xs text-gray-500 font-medium mb-1">Rooms</p>
-                    <p className="text-sm font-bold text-gray-900">1 Room</p>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-end border-t border-gray-100 pt-4 mb-5">
-                  <p className="font-semibold text-gray-900 text-base">Total Price</p>
-                  <div className="text-right">
-                    <p className="font-bold text-2xl text-gray-900">
-                      ₹{(parseInt(hotel.price.replace(/,/g, '')) * 3).toLocaleString()}
-                    </p>
-                    <p className="text-xs text-gray-500">(3 Nights)</p>
-                  </div>
-                </div>
-
-                <button className="w-full bg-[#1A63F4] hover:bg-blue-700 text-white py-3 rounded-lg text-sm font-semibold transition-colors shadow-sm mb-2">
-                  Book Now
-                </button>
-                <p className="text-center text-xs text-gray-500 font-medium">No hidden charges</p>
-              </div>
-
-              {/* Facilities Card */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Facilities</h3>
-                <ul className="space-y-3 text-sm text-gray-700 font-medium mb-4">
-                  <li className="flex items-center"><svg className="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>Free Wi-Fi</li>
-                  <li className="flex items-center"><svg className="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 11a9 9 0 019 9m-9-9a9 9 0 009-9m-9 9H3m9 9v1m0-19V2"></path></svg>Swimming Pool</li>
-                  <li className="flex items-center"><svg className="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Spa & Wellness</li>
-                  <li className="flex items-center"><svg className="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Restaurant</li>
-                  <li className="flex items-center"><svg className="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>24/7 Reception</li>
-                  <li className="flex items-center"><svg className="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>Airport Shuttle</li>
-                </ul>
-                <a href="#facilities" className="text-[#1A63F4] font-semibold text-sm hover:underline">View All Facilities</a>
-              </div>
-
-            </div>
-          </div>
         </div>
+      </section>
 
-        {/* 6. Similar Properties */}
-        <section className="mt-16 pt-10 border-t border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Similar Properties</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {similarHotels.map((simHotel) => (
-              <Link to={`/hotel/${simHotel.id}`} key={simHotel.id} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group cursor-pointer">
-                <div className="relative h-44 w-full overflow-hidden">
-                  <img src={simHotel.mainImage} alt={simHotel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute top-3 left-3 bg-green-600 text-white px-1.5 py-0.5 rounded text-[10px] font-bold flex items-center">
-                    ★ {simHotel.rating}
-                  </div>
-                  <button onClick={(e) => e.preventDefault()} className="absolute top-3 right-3 text-white hover:text-red-500 transition-colors">
-                    <svg className="w-5 h-5 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                  </button>
-                </div>
-                <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="font-bold text-sm text-gray-900 truncate">{simHotel.name}</h3>
-                  <p className="text-gray-500 text-xs mb-3">{simHotel.location}</p>
-                  <p className="font-bold text-sm text-gray-900 mt-auto pt-2 border-t border-gray-100">
-                    ₹{simHotel.price} <span className="font-normal text-[10px] text-gray-500">/ night</span>
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-      </div>
     </div>
   );
 };
 
-export default HotelDetails;
+export default Hotels;

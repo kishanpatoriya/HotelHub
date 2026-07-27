@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import  Navbar  from "./componets/Navbar";
 import  Home  from "./pages/Home";
