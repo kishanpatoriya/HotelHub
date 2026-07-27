@@ -1,3 +1,4 @@
+import "../index.css";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -8,8 +9,23 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [shake, setShake] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   if (!isOpen) return null;
+
+  const triggerShake = () => {
+    setHasError(true);
+    setShake(true);
+
+    setTimeout(() => {
+      setShake(false);
+    }, 450);
+
+    setTimeout(() => {
+      setHasError(false);
+    }, 2000);
+  };
 
   const handleSubmit = async () => {
     try {
@@ -37,6 +53,12 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
       });
 
       const data = await response.json();
+
+      if (!response.ok) {
+        triggerShake();
+        toast.error(data.message || "Login failed");
+        return;
+      }
 
       if (data.success) {
         // Save JWT Token
@@ -117,17 +139,23 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
         setEmail("");
         setPassword("");
       } else {
+        triggerShake();
         toast.error(data.message);
       }
     } catch (error) {
       console.log(error);
+      triggerShake();
       toast.error("Something went wrong");
     }
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden">
+      <div
+        className={`relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden ${
+          shake ? "animate-shake" : ""
+        }`}
+      >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-6 text-center">
           <h2 className="text-3xl font-bold">
@@ -151,7 +179,13 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 placeholder="Full Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full rounded-xl px-4 py-3 border transition-all duration-300
+                          ${
+                            hasError
+                              ? "border-red-500 ring-2 ring-red-200"
+                              : "border-gray-300 focus:ring-2 focus:ring-blue-500"
+                          }
+                          focus:outline-none`}
               />
             </div>
           )}
@@ -163,8 +197,14 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+              className={`w-full rounded-xl px-4 py-3 border transition-all duration-300
+                        ${
+                          hasError
+                            ? "border-red-500 ring-2 ring-red-200"
+                            : "border-gray-300 focus:ring-2 focus:ring-blue-500"
+                        }
+                        focus:outline-none`}
+              />
           </div>
 
           {/* Password */}
@@ -174,7 +214,13 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 pr-16 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full rounded-xl px-4 py-3 border transition-all duration-300
+                        ${
+                          hasError
+                            ? "border-red-500 ring-2 ring-red-200"
+                            : "border-gray-300 focus:ring-2 focus:ring-blue-500"
+                        }
+                        focus:outline-none`}
             />
 
             <button
