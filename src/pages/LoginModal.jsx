@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [isSignup, setIsSignup] = useState(false);
@@ -44,24 +45,83 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
         // Save User Data
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert(data.message);
+        toast.custom((t) => (
+          <div
+            className={`
+      ${t.visible ? "animate-fadeIn" : ""}
+      w-[350px]
+      bg-white
+      shadow-2xl
+      rounded-2xl
+      border
+      border-gray-100
+      overflow-hidden
+    `}
+          >
+            {/* Gradient Top Line */}
+            <div className="h-1 bg-gradient-to-r from-blue-600 via-cyan-400 to-green-400"></div>
+
+            <div className="p-5 flex items-center gap-4">
+              {/* Success Icon */}
+              <div
+                className="
+        w-14 h-14
+        rounded-full
+        bg-green-100
+        flex
+        items-center
+        justify-center
+      "
+              >
+                <svg
+                  className="w-8 h-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+
+              {/* Text */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-800">
+                  Login Successful 🎉
+                </h3>
+
+                <p className="text-sm text-gray-500">
+                  Welcome back, {data.user?.name || "User"} 👋
+                </p>
+
+                <p className="text-xs text-green-600 mt-1 font-medium">
+                  You are now logged in
+                </p>
+              </div>
+            </div>
+          </div>
+        ));
 
         if (onLoginSuccess) {
           onLoginSuccess();
         }
 
         onClose();
-        
+
         // Clear form
         setName("");
         setEmail("");
         setPassword("");
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
       console.log(error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
