@@ -53,6 +53,8 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
       });
 
       const data = await response.json();
+      console.log("Status:", response.status);
+      console.log("Data:", data);
 
       if (!response.ok) {
         triggerShake();
@@ -204,7 +206,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                             : "border-gray-300 focus:ring-2 focus:ring-blue-500"
                         }
                         focus:outline-none`}
-              />
+            />
           </div>
 
           {/* Password */}
@@ -226,7 +228,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium cursor-pointer"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
@@ -244,7 +246,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition"
+            className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
           >
             {isSignup ? "Create Account" : "Sign In"}
           </button>
@@ -255,7 +257,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
 
             <button
               onClick={() => setIsSignup(!isSignup)}
-              className="ml-2 text-blue-600 font-semibold hover:underline"
+              className="ml-2 text-blue-600 font-semibold hover:underline cursor-pointer"
             >
               {isSignup ? "Sign In" : "Create Account"}
             </button>

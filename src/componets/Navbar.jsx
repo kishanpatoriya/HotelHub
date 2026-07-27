@@ -111,12 +111,7 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
             />
           </div>
 
-          {/* Heart Icon */}
-          {/* <button className="text-gray-600 hover:text-gray-900 p-1.5 transition-colors hidden sm:block">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-          </button> */}
+         
 
           {/* Profile Icon - Show only after login */}
           {isLoggedIn && (
@@ -146,21 +141,21 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
           </button> */}
 
           {/* Book Now Button */}
-          <button className="bg-[#0052CC] hover:bg-blue-700 text-white text-xs lg:text-sm font-semibold px-4 py-2 lg:py-2.5 rounded-lg transition-colors shadow-sm whitespace-nowrap">
+          <button className="bg-[#0052CC] hover:bg-blue-700 text-white text-xs lg:text-sm font-semibold px-4 py-2 lg:py-2.5 rounded-lg transition-colors shadow-sm whitespace-nowrap cursor-pointer">
             Book Now
           </button>
 
           {isLoggedIn ? (
             <button
               onClick={onLogout}
-              className="bg-red-600 hover:bg-red-700 text-white text-xs lg:text-sm font-semibold px-4 py-2 lg:py-2.5 rounded-lg transition-colors shadow-sm whitespace-nowrap"
+              className="bg-red-600 hover:bg-red-700 text-white text-xs lg:text-sm font-semibold px-4 py-2 lg:py-2.5 rounded-lg transition-colors shadow-sm whitespace-nowrap cursor-pointer"
             >
               Logout
             </button>
           ) : (
             <button
               onClick={onLoginClick}
-              className="bg-green-600 hover:bg-green-700 text-white text-xs lg:text-sm font-semibold px-4 py-2 lg:py-2.5 rounded-lg transition-colors shadow-sm whitespace-nowrap"
+              className="bg-green-600 hover:bg-green-700 text-white text-xs lg:text-sm font-semibold px-4 py-2 lg:py-2.5 rounded-lg transition-colors shadow-sm whitespace-nowrap cursor-pointer"
             >
               Login / Sign Up
             </button>
