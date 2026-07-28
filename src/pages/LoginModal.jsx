@@ -11,6 +11,76 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [password, setPassword] = useState("");
   const [shake, setShake] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleForgotPassword = async () => {
+    const res = await fetch("http://localhost:5000/api/auth/forgot-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success("OTP sent successfully");
+      setOtpSent(true); // Show OTP input
+      // or setStep("otp");   // If you're using a step-based flow
+    } else {
+      toast.error(data.message);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!otp || !newPassword || !confirmPassword) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          otp,
+          newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success("Password reset successfully");
+
+        // Go back to login
+        setForgotPassword(false);
+        setOtpSent(false);
+        setOtp("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -210,58 +280,121 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
           </div>
 
           {/* Password */}
-          <div className="relative mb-4">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={`w-full rounded-xl px-4 py-3 border transition-all duration-300
-                        ${
-                          hasError
-                            ? "border-red-500 ring-2 ring-red-200"
-                            : "border-gray-300 focus:ring-2 focus:ring-blue-500"
-                        }
-                        focus:outline-none`}
-            />
+          {!forgotPassword && (
+            <div className="relative mb-4">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={`w-full rounded-xl px-4 py-3 border transition-all duration-300
+        ${
+          hasError
+            ? "border-red-500 ring-2 ring-red-200"
+            : "border-gray-300 focus:ring-2 focus:ring-blue-500"
+        }
+        focus:outline-none`}
+              />
 
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium cursor-pointer"
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
-          </div>
-
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium cursor-pointer"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          )}
           {/* Forgot Password */}
           {!isSignup && (
             <div className="text-right mb-5">
-              <button className="text-sm text-blue-600 hover:underline">
+              <button
+                onClick={() => setForgotPassword(true)}
+                className="text-sm text-blue-600 hover:underline cursor-pointer"
+              >
                 Forgot Password?
               </button>
             </div>
           )}
 
           {/* Submit Button */}
-          <button
-            onClick={handleSubmit}
-            className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
-          >
-            {isSignup ? "Create Account" : "Sign In"}
-          </button>
+          {/* Submit Button */}
+
+          {forgotPassword ? (
+            <>
+              {!otpSent ? (
+                <>
+                  <button
+                    onClick={handleForgotPassword}
+                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold"
+                  >
+                    Send OTP
+                  </button>
+
+                  <button
+                    onClick={() => setForgotPassword(false)}
+                    className="w-full mt-3 text-blue-600 font-semibold"
+                  >
+                    ← Back to Login
+                  </button>
+                </>
+              ) : (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Enter OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="w-full rounded-xl px-4 py-3 border border-gray-300 mb-4"
+                  />
+
+                  <input
+                    type="password"
+                    placeholder="New Password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full rounded-xl px-4 py-3 border border-gray-300 mb-4"
+                  />
+
+                  <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full rounded-xl px-4 py-3 border border-gray-300 mb-4"
+                  />
+
+                  <button
+                    onClick={handleResetPassword}
+                    className="w-full bg-green-600 text-white py-3 rounded-xl"
+                  >
+                    Reset Password
+                  </button>
+                </>
+              )}
+            </>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
+            >
+              {isSignup ? "Create Account" : "Sign In"}
+            </button>
+          )}
 
           {/* Switch Login Signup */}
-          <p className="text-center text-gray-600 mt-6 text-sm">
-            {isSignup ? "Already have an account?" : "Don't have an account?"}
+          {!forgotPassword && (
+            <p className="text-center text-gray-600 mt-6 text-sm">
+              {isSignup ? "Already have an account?" : "Don't have an account?"}
 
-            <button
-              onClick={() => setIsSignup(!isSignup)}
-              className="ml-2 text-blue-600 font-semibold hover:underline cursor-pointer"
-            >
-              {isSignup ? "Sign In" : "Create Account"}
-            </button>
-          </p>
+              <button
+                onClick={() => setIsSignup(!isSignup)}
+                className="ml-2 text-blue-600 font-semibold hover:underline cursor-pointer"
+              >
+                {isSignup ? "Sign In" : "Create Account"}
+              </button>
+            </p>
+          )}
         </div>
       </div>
     </div>
