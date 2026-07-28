@@ -326,14 +326,14 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 <>
                   <button
                     onClick={handleForgotPassword}
-                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold"
+                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl font-semibold cursor-pointer"
                   >
                     Send OTP
                   </button>
 
                   <button
                     onClick={() => setForgotPassword(false)}
-                    className="w-full mt-3 text-blue-600 font-semibold"
+                    className="w-full mt-3 text-blue-600 font-semibold cursor-pointer"
                   >
                     ← Back to Login
                   </button>
@@ -366,7 +366,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
 
                   <button
                     onClick={handleResetPassword}
-                    className="w-full bg-green-600 text-white py-3 rounded-xl"
+                    className="w-full bg-green-600 text-white py-3 rounded-xl cursor-pointer"
                   >
                     Reset Password
                   </button>
