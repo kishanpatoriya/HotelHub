@@ -146,6 +146,7 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/hotel/:id" element={<HotelDetails />} />
         </Route>
       </Routes>
 
