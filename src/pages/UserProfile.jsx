@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -15,17 +16,56 @@ const UserProfile = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
 
-  useEffect(() => {
-    const savedData = localStorage.getItem('hotelHubUserProfile');
-    const savedImage = localStorage.getItem('hotelHubUserImage');
-    
-    if (savedData) {
-      setProfileData(JSON.parse(savedData));
+useEffect(() => {
+
+  const fetchProfile = async () => {
+
+    try {
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(
+        "http://localhost:5000/api/user/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const user = res.data.user;
+
+      setProfileData({
+        fullName: user.name || "",
+        username: user.username || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        dob: user.dob || "",
+        gender: user.gender || "",
+        country: user.country || "",
+        state: user.state || "",
+        city: user.city || "",
+        zip: user.zipCode || "",
+        address: user.address || "",
+        website: user.website || "",
+        facebook: user.facebook || "",
+        instagram: user.instagram || "",
+        linkedin: user.linkedin || "",
+        bio: user.about || "",
+      });
+
+      setProfileImage(user.profileImage);
+
+    } catch (err) {
+      console.log(err);
     }
-    if (savedImage) {
-      setProfileImage(savedImage);
-    }
-  }, []);
+
+  };
+
+  fetchProfile();
+
+}, []);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,15 +103,52 @@ const UserProfile = () => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleSaveChanges = () => {
-    localStorage.setItem('hotelHubUserProfile', JSON.stringify(profileData));
-    if (profileImage) {
-      localStorage.setItem('hotelHubUserImage', profileImage);
-    } else {
-      localStorage.removeItem('hotelHubUserImage');
-    }
-    alert("✅ Profile changes saved successfully!");
-  };
+const handleSaveChanges = async () => {
+
+  try {
+
+    const token = localStorage.getItem("token");
+
+    await axios.put(
+      "http://localhost:5000/api/user/profile",
+
+      {
+        name: profileData.fullName,
+        username: profileData.username,
+        phone: profileData.phone,
+        dob: profileData.dob,
+        gender: profileData.gender,
+        country: profileData.country,
+        state: profileData.state,
+        city: profileData.city,
+        zipCode: profileData.zip,
+        address: profileData.address,
+        website: profileData.website,
+        facebook: profileData.facebook,
+        instagram: profileData.instagram,
+        linkedin: profileData.linkedin,
+        about: profileData.bio,
+        profileImage,
+      },
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Profile Updated Successfully!");
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Error updating profile");
+
+  }
+
+};
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
