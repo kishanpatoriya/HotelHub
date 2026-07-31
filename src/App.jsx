@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Navbar from "./componets/Navbar";
 import Home from "./pages/Home";
@@ -16,6 +22,10 @@ import LoginModal from "./pages/LoginModal";
 import Booking from "./pages/Booking";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import MyBookings from "./componets/MyBookings";
+
+import AdminLogin from "./pages/AdminLogin";
+import AdminPanel from "./pages/AdminPanel";
+import AdminProtectedRoute from "./componets/AdminProtectedRoute";
 
 import "./App.css";
 
@@ -150,6 +160,19 @@ function App() {
           <Route path="/offers" element={<Offers />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/booking" element={<Booking />} />
+
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/panel" element={<AdminPanel />} />
+
+          {/* Protected Admin Panel */}
+          <Route
+            path="/admin/panel"
+            element={
+              <AdminProtectedRoute>
+                <AdminPanel />
+              </AdminProtectedRoute>
+            }
+          />
 
           <Route
             path="/my-bookings"
