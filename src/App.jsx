@@ -6,12 +6,21 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+
 import toast, { Toaster } from "react-hot-toast";
+
+// ===============================
+// USER COMPONENTS
+// ===============================
 import Navbar from "./componets/Navbar";
-import Home from "./pages/Home";
-import Hotels from "./pages/Hotels";
 import Footer from "./componets/Footer";
 import ScrollToTop from "./componets/ScrollToTop";
+
+// ===============================
+// USER PAGES
+// ===============================
+import Home from "./pages/Home";
+import Hotels from "./pages/Hotels";
 import HotelDetails from "./pages/HotelDetails";
 import UserProfile from "./pages/UserProfile";
 import Experiences from "./pages/Experiences";
@@ -23,52 +32,73 @@ import Booking from "./pages/Booking";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import MyBookings from "./componets/MyBookings";
 
-import AdminLogin from "./pages/AdminLogin";
-import AdminPanel from "./pages/AdminPanel";
-import AdminProtectedRoute from "./componets/AdminProtectedRoute";
+// ===============================
+// ADMIN COMPONENTS
+// ===============================
+import AdminLogin from "../admin/pages/AdminLogin";
+import AdminPanel from "../admin/pages/AdminPanel";
+import AdminHotels from "../admin/pages/AdminHotels";
+import AdminProtectedRoute from "../admin/pages/components/AdminProtectedRoute";
 
+// ===============================
+// CSS
+// ===============================
 import "./App.css";
 
 function App() {
-  // Login popup
+  // ==========================================
+  // USER LOGIN STATE
+  // ==========================================
+
   const [showLogin, setShowLogin] = useState(false);
 
-  // Check if already logged in
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("token")
+  );
 
-  // Logout
+  // ==========================================
+  // USER LOGOUT
+  // ==========================================
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+
     setIsLoggedIn(false);
 
     toast.custom((t) => (
       <div
         className={`
-        ${t.visible ? "animate-fadeIn" : ""}
-        w-[350px]
-        bg-white
-        shadow-2xl
-        rounded-2xl
-        border
-        border-gray-100
-        overflow-hidden
-      `}
+          ${
+            t.visible
+              ? "animate-fadeIn"
+              : ""
+          }
+          w-[350px]
+          bg-white
+          shadow-2xl
+          rounded-2xl
+          border
+          border-gray-100
+          overflow-hidden
+        `}
       >
         {/* Gradient Line */}
-        <div className="h-1 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400"></div>
+        <div className="h-1 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400" />
 
         <div className="p-5 flex items-center gap-4">
+
           {/* Logout Icon */}
           <div
             className="
-          w-14 h-14
-          rounded-full
-          bg-red-100
-          flex
-          items-center
-          justify-center
-        "
+              w-14
+              h-14
+              rounded-full
+              bg-red-100
+              flex
+              items-center
+              justify-center
+            "
           >
             <svg
               className="w-8 h-8 text-red-600"
@@ -87,7 +117,9 @@ function App() {
 
           {/* Text */}
           <div>
-            <h3 className="text-lg font-bold text-gray-800">Logged Out 👋</h3>
+            <h3 className="text-lg font-bold text-gray-800">
+              Logged Out 👋
+            </h3>
 
             <p className="text-sm text-gray-500">
               You have been logged out successfully
@@ -97,10 +129,15 @@ function App() {
               See you again soon!
             </p>
           </div>
+
         </div>
       </div>
     ));
   };
+
+  // ==========================================
+  // MAIN USER LAYOUT
+  // ==========================================
 
   const MainLayout = () => {
     return (
@@ -118,13 +155,21 @@ function App() {
     );
   };
 
+  // ==========================================
+  // APP
+  // ==========================================
+
   return (
     <>
-      {/* Toast Notifications */}
+      {/* =====================================
+          TOAST NOTIFICATIONS
+      ===================================== */}
+
       <Toaster
         position="top-right"
         toastOptions={{
           duration: 2500,
+
           style: {
             borderRadius: "12px",
             background: "#ffffff",
@@ -132,12 +177,14 @@ function App() {
             padding: "14px 18px",
             fontSize: "15px",
           },
+
           success: {
             iconTheme: {
               primary: "#10B981",
               secondary: "#fff",
             },
           },
+
           error: {
             iconTheme: {
               primary: "#EF4444",
@@ -147,50 +194,201 @@ function App() {
         }}
       />
 
+      {/* =====================================
+          SCROLL TO TOP
+      ===================================== */}
+
       <ScrollToTop />
 
+      {/* =====================================
+          ROUTES
+      ===================================== */}
+
       <Routes>
+
+        {/* ===================================
+            USER WEBSITE
+        =================================== */}
+
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/Hotels" element={<Hotels />} />
-          <Route path="/hotel/:id" element={<HotelDetails />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/experiences" element={<Experiences />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/offers" element={<Offers />} />
-          <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/booking" element={<Booking />} />
 
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/panel" element={<AdminPanel />} />
-
-          {/* Protected Admin Panel */}
+          {/* HOME */}
           <Route
-            path="/admin/panel"
+            path="/"
+            element={<Home />}
+          />
+
+          {/* HOTELS */}
+          <Route
+            path="/Hotels"
+            element={<Hotels />}
+          />
+
+          {/* HOTEL DETAILS */}
+          <Route
+            path="/hotel/:id"
+            element={<HotelDetails />}
+          />
+
+          {/* USER PROFILE */}
+          <Route
+            path="/profile"
+            element={<UserProfile />}
+          />
+
+          {/* EXPERIENCES */}
+          <Route
+            path="/experiences"
+            element={<Experiences />}
+          />
+
+          {/* ABOUT US */}
+          <Route
+            path="/aboutus"
+            element={<AboutUs />}
+          />
+
+          {/* OFFERS */}
+          <Route
+            path="/offers"
+            element={<Offers />}
+          />
+
+          {/* CONTACT US */}
+          <Route
+            path="/contactus"
+            element={<ContactUs />}
+          />
+
+          {/* BOOKING */}
+          <Route
+            path="/booking"
+            element={<Booking />}
+          />
+
+          {/* MY BOOKINGS */}
+          <Route
+            path="/my-bookings"
             element={
-              <AdminProtectedRoute>
-                <AdminPanel />
-              </AdminProtectedRoute>
+              isLoggedIn ? (
+                <MyBookings />
+              ) : (
+                <Navigate
+                  to="/"
+                  replace
+                />
+              )
             }
           />
 
-          <Route
-            path="/my-bookings"
-            element={isLoggedIn ? <MyBookings /> : <Navigate to="/" replace />}
-          />
-
+          {/* BOOKING CONFIRMATION */}
           <Route
             path="/booking-confirmation"
             element={<BookingConfirmation />}
           />
+
         </Route>
+
+
+        {/* ===================================
+            ADMIN LOGIN
+        =================================== */}
+
+        <Route
+          path="/admin"
+          element={<AdminLogin />}
+        />
+
+
+        {/* ===================================
+            ADMIN DASHBOARD
+            AdminPanel.jsx
+        =================================== */}
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminProtectedRoute>
+              <AdminPanel />
+            </AdminProtectedRoute>
+          }
+        />
+
+
+        {/* ===================================
+            ADMIN HOTELS
+            AdminHotels.jsx
+        =================================== */}
+
+        <Route
+          path="/admin/hotels"
+          element={
+            <AdminProtectedRoute>
+              <AdminHotels />
+            </AdminProtectedRoute>
+          }
+        />
+
+
+        {/* ===================================
+            OPTIONAL ADMIN ROOT REDIRECT
+        =================================== */}
+
+        <Route
+          path="/admin/panel"
+          element={
+            <Navigate
+              to="/admin/dashboard"
+              replace
+            />
+          }
+        />
+
+
+        {/* ===================================
+            ADMIN ADD HOTEL
+        =================================== */}
+
+        <Route
+          path="/admin/hotels/add"
+          element={
+            <AdminProtectedRoute>
+              <AdminHotels />
+            </AdminProtectedRoute>
+          }
+        />
+
+
+        {/* ===================================
+            UNKNOWN ROUTE
+        =================================== */}
+
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to="/"
+              replace
+            />
+          }
+        />
+
       </Routes>
+
+
+      {/* =====================================
+          USER LOGIN MODAL
+      ===================================== */}
 
       <LoginModal
         isOpen={showLogin}
         onClose={() => setShowLogin(false)}
-        onLoginSuccess={() => setIsLoggedIn(true)}
+        onLoginSuccess={() => {
+          setIsLoggedIn(true);
+          setShowLogin(false);
+        }}
       />
+
     </>
   );
 }

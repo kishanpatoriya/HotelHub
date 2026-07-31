@@ -81,16 +81,13 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen w-full bg-[#f5f7fb] text-gray-800">
-
       {/* =====================================================
           SIDEBAR
       ===================================================== */}
 
       <aside className="fixed left-0 top-0 bottom-0 w-[250px] bg-[#111827] text-white hidden lg:flex flex-col z-50">
-
         {/* Logo */}
         <div className="h-[72px] px-6 flex items-center border-b border-gray-700">
-
           <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-xl mr-3">
             🏨
           </div>
@@ -100,28 +97,26 @@ const AdminPanel = () => {
               Hotel<span className="text-blue-400">Hub</span>
             </h1>
 
-            <p className="text-[11px] text-gray-400">
-              ADMIN PANEL
-            </p>
+            <p className="text-[11px] text-gray-400">ADMIN PANEL</p>
           </div>
-
         </div>
 
         {/* Navigation */}
         <div className="px-4 py-6 flex-1">
-
           <p className="text-[11px] uppercase tracking-wider text-gray-500 font-semibold px-3 mb-3">
             Main Menu
           </p>
 
           <nav className="space-y-1">
-
             <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium">
               <span>📊</span>
               Dashboard
             </button>
 
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:bg-gray-800 transition">
+            <button
+              onClick={() => navigate("/admin/hotels")}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:bg-gray-800 transition cursor-pointer"
+            >
               <span>🏨</span>
               Hotels
             </button>
@@ -140,7 +135,6 @@ const AdminPanel = () => {
               <span>👥</span>
               Users
             </button>
-
           </nav>
 
           <p className="text-[11px] uppercase tracking-wider text-gray-500 font-semibold px-3 mt-8 mb-3">
@@ -151,28 +145,20 @@ const AdminPanel = () => {
             <span>⚙️</span>
             Settings
           </button>
-
         </div>
 
         {/* Admin Profile */}
         <div className="border-t border-gray-700 p-4">
-
           <div className="flex items-center gap-3 mb-4">
-
             <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold">
               A
             </div>
 
             <div className="min-w-0">
-              <p className="text-sm font-semibold truncate">
-                Administrator
-              </p>
+              <p className="text-sm font-semibold truncate">Administrator</p>
 
-              <p className="text-xs text-gray-400">
-                Super Admin
-              </p>
+              <p className="text-xs text-gray-400">Super Admin</p>
             </div>
-
           </div>
 
           <button
@@ -181,24 +167,19 @@ const AdminPanel = () => {
           >
             🚪 Logout
           </button>
-
         </div>
-
       </aside>
-
 
       {/* =====================================================
           MAIN CONTENT
       ===================================================== */}
 
       <div className="lg:ml-[250px] min-h-screen">
-
         {/* =================================================
             TOP BAR
         ================================================= */}
 
         <header className="h-[72px] bg-white border-b border-gray-200 px-5 sm:px-8 flex items-center justify-between sticky top-0 z-40">
-
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-gray-900">
               Dashboard
@@ -210,48 +191,35 @@ const AdminPanel = () => {
           </div>
 
           <div className="flex items-center gap-3">
-
             {/* Notification */}
             <button className="relative w-10 h-10 rounded-xl border border-gray-200 hover:bg-gray-50 flex items-center justify-center">
               🔔
-
               <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500"></span>
             </button>
 
             {/* Profile */}
             <div className="flex items-center gap-3 pl-3 border-l">
-
               <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
                 A
               </div>
 
               <div className="hidden sm:block">
-                <p className="text-sm font-semibold">
-                  Admin
-                </p>
+                <p className="text-sm font-semibold">Admin</p>
 
-                <p className="text-xs text-gray-500">
-                  Administrator
-                </p>
+                <p className="text-xs text-gray-500">Administrator</p>
               </div>
-
             </div>
-
           </div>
-
         </header>
-
 
         {/* =================================================
             PAGE CONTENT
         ================================================= */}
 
         <main className="p-5 sm:p-8 max-w-[1600px] mx-auto">
-
           {/* Welcome */}
 
           <div className="mb-8">
-
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
               Welcome back, Admin 👋
             </h1>
@@ -259,79 +227,54 @@ const AdminPanel = () => {
             <p className="text-gray-500 mt-1">
               Here's what's happening with HotelHub today.
             </p>
-
           </div>
-
 
           {/* =================================================
               STAT CARDS
           ================================================= */}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
-
             {stats.map((stat) => (
-
               <div
                 key={stat.title}
                 className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition"
               >
-
                 <div className="flex items-start justify-between">
-
                   <div>
-
-                    <p className="text-sm text-gray-500">
-                      {stat.title}
-                    </p>
+                    <p className="text-sm text-gray-500">{stat.title}</p>
 
                     <h2 className="text-2xl font-bold text-gray-900 mt-2">
                       {stat.value}
                     </h2>
-
                   </div>
 
                   <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center text-xl">
                     {stat.icon}
                   </div>
-
                 </div>
 
                 <div className="flex items-center gap-2 mt-4">
-
                   <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-md">
                     ↑ {stat.change}
                   </span>
 
-                  <span className="text-xs text-gray-400">
-                    vs last month
-                  </span>
-
+                  <span className="text-xs text-gray-400">vs last month</span>
                 </div>
-
               </div>
-
             ))}
-
           </div>
-
 
           {/* =================================================
               TWO COLUMN SECTION
           ================================================= */}
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
-
-
             {/* Revenue */}
 
             <div className="xl:col-span-2 bg-white border border-gray-200 rounded-2xl p-6">
-
               <div className="flex items-center justify-between mb-6">
-
                 <div>
-                  <h2 className="font-bold text-lg">
-                    Revenue Overview
-                  </h2>
+                  <h2 className="font-bold text-lg">Revenue Overview</h2>
 
                   <p className="text-sm text-gray-500">
                     Monthly revenue performance
@@ -342,35 +285,24 @@ const AdminPanel = () => {
                   <option>2026</option>
                   <option>2025</option>
                 </select>
-
               </div>
 
               {/* Simple chart */}
 
               <div className="h-[230px] flex items-end gap-3 sm:gap-6 border-b border-gray-100 pb-2">
-
                 {[45, 65, 52, 75, 60, 82, 70, 90, 68, 78, 88, 96].map(
                   (height, index) => (
-
-                    <div
-                      key={index}
-                      className="flex-1 h-full flex items-end"
-                    >
-
+                    <div key={index} className="flex-1 h-full flex items-end">
                       <div
                         className="w-full bg-blue-500 hover:bg-blue-600 rounded-t-lg transition"
                         style={{ height: `${height}%` }}
                       />
-
                     </div>
-
-                  )
+                  ),
                 )}
-
               </div>
 
               <div className="flex justify-between text-xs text-gray-400 mt-3">
-
                 <span>Jan</span>
                 <span>Feb</span>
                 <span>Mar</span>
@@ -383,202 +315,123 @@ const AdminPanel = () => {
                 <span>Oct</span>
                 <span>Nov</span>
                 <span>Dec</span>
-
               </div>
-
             </div>
-
 
             {/* Booking Summary */}
 
             <div className="bg-white border border-gray-200 rounded-2xl p-6">
-
-              <h2 className="font-bold text-lg">
-                Booking Summary
-              </h2>
+              <h2 className="font-bold text-lg">Booking Summary</h2>
 
               <p className="text-sm text-gray-500 mb-6">
                 This month's bookings
               </p>
 
               <div className="flex items-center justify-center mb-6">
-
                 <div className="w-36 h-36 rounded-full border-[18px] border-blue-500 flex items-center justify-center">
-
                   <div className="text-center">
+                    <p className="text-2xl font-bold">82%</p>
 
-                    <p className="text-2xl font-bold">
-                      82%
-                    </p>
-
-                    <p className="text-xs text-gray-500">
-                      Occupancy
-                    </p>
-
+                    <p className="text-xs text-gray-500">Occupancy</p>
                   </div>
-
                 </div>
-
               </div>
 
               <div className="space-y-4">
-
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">
-                    Confirmed
-                  </span>
+                  <span className="text-sm text-gray-500">Confirmed</span>
 
-                  <span className="font-semibold">
-                    820
-                  </span>
+                  <span className="font-semibold">820</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">
-                    Pending
-                  </span>
+                  <span className="text-sm text-gray-500">Pending</span>
 
-                  <span className="font-semibold">
-                    128
-                  </span>
+                  <span className="font-semibold">128</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">
-                    Cancelled
-                  </span>
+                  <span className="text-sm text-gray-500">Cancelled</span>
 
-                  <span className="font-semibold">
-                    64
-                  </span>
+                  <span className="font-semibold">64</span>
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
 
           {/* =================================================
               QUICK ACTIONS
           ================================================= */}
 
           <div className="mb-8">
-
-            <h2 className="text-lg font-bold mb-4">
-              Quick Actions
-            </h2>
+            <h2 className="text-lg font-bold mb-4">Quick Actions</h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
               <button className="bg-white border border-gray-200 rounded-xl p-5 text-left hover:border-blue-400 hover:shadow-sm transition">
-
                 <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-xl mb-3">
                   ➕
                 </div>
 
-                <p className="font-semibold">
-                  Add Hotel
-                </p>
+                <p className="font-semibold">Add Hotel</p>
 
-                <p className="text-xs text-gray-500 mt-1">
-                  Create new hotel
-                </p>
-
+                <p className="text-xs text-gray-500 mt-1">Create new hotel</p>
               </button>
 
-
               <button className="bg-white border border-gray-200 rounded-xl p-5 text-left hover:border-blue-400 hover:shadow-sm transition">
-
                 <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center text-xl mb-3">
                   🛏️
                 </div>
 
-                <p className="font-semibold">
-                  Add Room
-                </p>
+                <p className="font-semibold">Add Room</p>
 
-                <p className="text-xs text-gray-500 mt-1">
-                  Add hotel room
-                </p>
-
+                <p className="text-xs text-gray-500 mt-1">Add hotel room</p>
               </button>
 
-
               <button className="bg-white border border-gray-200 rounded-xl p-5 text-left hover:border-blue-400 hover:shadow-sm transition">
-
                 <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center text-xl mb-3">
                   📅
                 </div>
 
-                <p className="font-semibold">
-                  Bookings
-                </p>
+                <p className="font-semibold">Bookings</p>
 
-                <p className="text-xs text-gray-500 mt-1">
-                  Manage bookings
-                </p>
-
+                <p className="text-xs text-gray-500 mt-1">Manage bookings</p>
               </button>
 
-
               <button className="bg-white border border-gray-200 rounded-xl p-5 text-left hover:border-blue-400 hover:shadow-sm transition">
-
                 <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center text-xl mb-3">
                   👥
                 </div>
 
-                <p className="font-semibold">
-                  Users
-                </p>
+                <p className="font-semibold">Users</p>
 
-                <p className="text-xs text-gray-500 mt-1">
-                  Manage customers
-                </p>
-
+                <p className="text-xs text-gray-500 mt-1">Manage customers</p>
               </button>
-
             </div>
-
           </div>
-
 
           {/* =================================================
               RECENT BOOKINGS
           ================================================= */}
 
           <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-
             <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
-
               <div>
-
-                <h2 className="font-bold text-lg">
-                  Recent Bookings
-                </h2>
+                <h2 className="font-bold text-lg">Recent Bookings</h2>
 
                 <p className="text-sm text-gray-500 mt-1">
                   Latest reservations from customers
                 </p>
-
               </div>
 
               <button className="text-sm font-semibold text-blue-600 hover:text-blue-700">
                 View All →
               </button>
-
             </div>
 
-
             <div className="overflow-x-auto">
-
               <table className="w-full min-w-[800px]">
-
                 <thead className="bg-gray-50">
-
                   <tr>
-
                     <th className="text-left px-6 py-4 text-xs uppercase tracking-wide text-gray-500">
                       Booking
                     </th>
@@ -602,28 +455,20 @@ const AdminPanel = () => {
                     <th className="text-left px-6 py-4 text-xs uppercase tracking-wide text-gray-500">
                       Status
                     </th>
-
                   </tr>
-
                 </thead>
 
-
                 <tbody>
-
                   {bookings.map((booking) => (
-
                     <tr
                       key={booking.id}
                       className="border-t border-gray-100 hover:bg-gray-50 transition"
                     >
-
                       <td className="px-6 py-4 font-semibold text-sm">
                         {booking.id}
                       </td>
 
-                      <td className="px-6 py-4 text-sm">
-                        {booking.customer}
-                      </td>
+                      <td className="px-6 py-4 text-sm">{booking.customer}</td>
 
                       <td className="px-6 py-4 text-sm text-gray-600">
                         {booking.hotel}
@@ -638,44 +483,32 @@ const AdminPanel = () => {
                       </td>
 
                       <td className="px-6 py-4">
-
                         <span
                           className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
                             booking.status === "Confirmed"
                               ? "bg-green-100 text-green-700"
                               : booking.status === "Pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
+                                ? "bg-yellow-100 text-yellow-700"
+                                : "bg-red-100 text-red-700"
                           }`}
                         >
                           {booking.status}
                         </span>
-
                       </td>
-
                     </tr>
-
                   ))}
-
                 </tbody>
-
               </table>
-
             </div>
-
           </div>
-
 
           {/* Footer */}
 
           <div className="text-center text-xs text-gray-400 py-8">
             HotelHub Admin Dashboard © 2026
           </div>
-
         </main>
-
       </div>
-
     </div>
   );
 };
