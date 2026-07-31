@@ -13,6 +13,8 @@ import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
 import Offers from "./pages/Offers";
 import LoginModal from "./pages/LoginModal";
+import Booking from "./pages/Booking";
+import BookingConfirmation from "./pages/BookingConfirmation";
 
 import "./App.css";
 
@@ -147,6 +149,8 @@ function App() {
           <Route path="/offers" element={<Offers />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/hotel/:id" element={<HotelDetails />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/booking-confirmation" element={<BookingConfirmation />}/>
         </Route>
       </Routes>
 
