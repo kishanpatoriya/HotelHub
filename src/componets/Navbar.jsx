@@ -85,6 +85,16 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
           >
             ContactUs
           </NavLink>
+
+          {isLoggedIn && (
+            <NavLink
+              to="/my-bookings"
+              onClick={() => handleLinkClick("bookings")}
+              className={getDesktopLinkStyle("bookings")}
+            >
+              My Bookings
+            </NavLink>
+          )}
         </div>
 
         {/* 3. Right: Icons & Buttons */}
@@ -111,28 +121,30 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
             />
           </div>
 
-         
-
           {/* Profile Icon - Show only after login */}
           {isLoggedIn && (
-            <Link
-              to="/profile"
-              className="text-gray-600 hover:text-gray-900 p-1.5 transition-colors hidden sm:block"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
+            <>
+              <Link
+                to="/profile"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center text-gray-600 text-sm font-medium"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7 0z"
-                />
-              </svg>
-            </Link>
+                <svg
+                  className="w-5 h-5 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.982 18.725A8.97 8.97 0 0012 16.5a8.97 8.97 0 00-5.982 2.225M15 9a3 3 0 11-6 0 3 3 0 016 0zm6 3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Profile
+              </Link>
+            </>
           )}
 
           {/* Book Now Button */}
@@ -253,6 +265,15 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
           >
             Contact Us
           </NavLink>
+          {isLoggedIn && (
+            <NavLink
+              to="/my-bookings"
+              onClick={() => handleLinkClick("bookings")}
+              className={getMobileLinkStyle("bookings")}
+            >
+              My Bookings
+            </NavLink>
+          )}
 
           <hr className="border-gray-100" />
 
@@ -278,23 +299,21 @@ const Navbar = ({ isLoggedIn, onLoginClick, onLogout }) => {
             {isLoggedIn && (
               <Link
                 to="/profile"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center text-gray-600 text-sm font-medium"
+                className="text-gray-600 hover:text-gray-900 p-1.5 transition-colors hidden sm:block"
               >
                 <svg
-                  className="w-5 h-5 mr-1"
-                  fill="none" 
+                  className="w-5 h-5"
+                  fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.8"
+                  strokeWidth="2"
                   viewBox="0 0 24 24"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M17.982 18.725A8.97 8.97 0 0012 16.5a8.97 8.97 0 00-5.982 2.225M15 9a3 3 0 11-6 0 3 3 0 016 0zm6 3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7 7z"
                   />
                 </svg>
-                Profile
               </Link>
             )}
           </div>

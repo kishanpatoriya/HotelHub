@@ -27,13 +27,28 @@ const createBooking = async (req, res) => {
     } = req.body;
 
     // ============================
+    // CHECK LOGIN
+    // ============================
+
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Please login to make a booking.",
+      });
+    }
+
+    // ============================
     // REQUIRED FIELDS
     // ============================
 
     if (
       !hotelId ||
       !hotelName ||
+      !hotelLocation ||
+      !hotelImage ||
       !roomName ||
+      !roomImage ||
+      roomPrice === undefined ||
       !checkIn ||
       !checkOut ||
       !guests ||
@@ -41,6 +56,7 @@ const createBooking = async (req, res) => {
       !guestName ||
       !phone ||
       !email ||
+      taxes === undefined ||
       totalPrice === undefined
     ) {
       return res.status(400).json({
@@ -86,22 +102,30 @@ const createBooking = async (req, res) => {
     // ============================
 
     const booking = await Booking.create({
+      userId: req.user.id,
+
       hotelId,
       hotelName,
       hotelLocation,
       hotelImage,
+
       roomName,
       roomImage,
       roomPrice,
+
       checkIn: startDate,
       checkOut: endDate,
+
       guests,
       nights,
+
       guestName,
       phone,
       email,
+
       taxes,
       totalPrice,
+
       bookingStatus: "confirmed",
     });
 
@@ -109,22 +133,94 @@ const createBooking = async (req, res) => {
     // SUCCESS
     // ============================
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Booking created successfully.",
       booking,
     });
-
   } catch (error) {
     console.error("Create Booking Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Server error while creating booking.",
     });
   }
 };
 
+// ============================
+// GET MY BOOKINGS
+// ============================
+
+const getMyBookings = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Please login first.",
+      });
+    }
+
+    const bookings = await Booking.find({
+      userId: req.user.id,
+    }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      bookings,
+    });
+  } catch (error) {
+    console.error("Get My Bookings Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error while loading bookings.",
+    });
+  }
+};
+
+const cancelBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findOne({
+      _id: req.params.id,
+      userId: req.user.id,
+    });
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    if (booking.bookingStatus === "cancelled") {
+      return res.status(400).json({
+        success: false,
+        message: "Booking is already cancelled",
+      });
+    }
+
+    booking.bookingStatus = "cancelled";
+
+    await booking.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Booking cancelled successfully",
+      booking,
+    });
+  } catch (error) {
+    console.error("Cancel Booking Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error while cancelling booking",
+    });
+  }
+};
+
 module.exports = {
   createBooking,
+  getMyBookings,
+  cancelBooking,
 };
